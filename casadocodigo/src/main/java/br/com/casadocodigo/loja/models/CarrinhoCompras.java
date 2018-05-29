@@ -12,13 +12,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 @Component
-@Scope(value=WebApplicationContext.SCOPE_SESSION, 
-				proxyMode=ScopedProxyMode.TARGET_CLASS)
+@Scope(value=WebApplicationContext.SCOPE_SESSION, proxyMode=ScopedProxyMode.TARGET_CLASS)
 public class CarrinhoCompras implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	
+	
 
 	private Map<CarrinhoItem, Integer> itens = new LinkedHashMap<>();
+	
+	
 	
 	public Collection<CarrinhoItem> getItens() {
 		return itens.keySet();
@@ -57,6 +60,10 @@ public class CarrinhoCompras implements Serializable{
 		Produto produto = new Produto();
 		produto.setId(produtoId);
 		this.itens.remove(new CarrinhoItem(produto, tipoPreco));
+	}
+	
+	public void clear() {
+		itens.clear();
 	}
 	
 }

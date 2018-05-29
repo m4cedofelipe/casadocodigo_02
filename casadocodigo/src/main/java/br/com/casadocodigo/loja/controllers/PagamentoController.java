@@ -25,14 +25,18 @@ public class PagamentoController {
 	RestTemplate restTemplate;
 	
 	@RequestMapping(value="/finalizar", method=RequestMethod.POST)
-	public Callable<ModelAndView>  finalizar(RedirectAttributes model){
+	public Callable<ModelAndView> finalizar(RedirectAttributes model){
 		return () -> {
 			String uri = "http://book-payment.herokuapp.com/payment";
 			
 			try {
 				String response = restTemplate.postForObject(uri, new DadosPagamento(carrinho.getTotal()), String.class);
 				model.addFlashAttribute("sucesso", response);
+				
 				System.out.println(response);
+				
+				carrinho.clear();	// limpa a lista de carrinho
+				
 				return new ModelAndView("redirect:/produtos");
 			} catch (HttpClientErrorException e) {
 				e.printStackTrace();
